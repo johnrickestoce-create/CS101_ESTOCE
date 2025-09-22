@@ -136,10 +136,9 @@ length(sum_multiples) # 1
 # Example entered:
 {x <- 0
   x + 5 +}
-
-# So inshort
-# The error happens because the statement inside the block is not syntactically complete (`x + 5 +` is invalid).
-# The correct form should be written properly with x <- 0 and then x + 5.
+                  
+#The error occurs because the statement inside the block is incomplete {x + 5 + is invalid}.
+#It should be written correctly, for example by first assigning x <- 0 and then using x + 5.
 
 # 13. Set up a vector named score
 score <- c(72, 86, 92, 63, 88, 89, 91, 92, 75, 75, 77)
