@@ -30,6 +30,5 @@ a. seq(1, 3, by=0.2) # specify step size
 Write the R code and its output.
 ```{r setup, include=FALSE}
 
-sum <- 1 + 2
-sum
 ```
+
