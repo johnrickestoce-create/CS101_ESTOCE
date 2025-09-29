@@ -13,4 +13,4 @@ print(R.version.string)
 # Input your name: John
 # Input your age: 21
 # [1] "My name is John and I am 21 years old."
-# [1] "R version 4.x.x (YYYY-MM-DD)"   # actual version depends on installed R
+# [1] "R version 4.x.x (YYYY-MM-DD)"  
