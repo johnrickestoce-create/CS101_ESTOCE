@@ -122,12 +122,12 @@ b.
 [1] 59.2625
 
 #7. R has actually lots of built-in datasets. For example, the rivers data “gives the lengths (in miles) of 141 “major” rivers in North America, as compiled by the US Geological Survey”.
-
+a. Type “rivers” in your R console. Create a vector data with 7
+elements, containing the number of elements (length) in rivers,#their sum (sum), mean (mean), median (median), variance (var)
+standard deviation (sd), minimum (min) and maximum (max).
+b. what's the output?
+c. Code and its output
 ```{r setup, include=FALSE}
-#a. Type “rivers” in your R console. Create a vector data with 7
-#elements, containing the number of elements (length) in rivers,
-#their sum (sum), mean (mean), median (median), variance (var)
-#standard deviation (sd), minimum (min) and maximum (max).
 
 data <- c(
   length(rivers),
@@ -145,7 +145,7 @@ data
  # length   sum        mean  median  variance     sd       min     max 
  # 141.0   591952.0   591.2   425.0  98382.96   313.83   135.0  3710.0 
 
-#c. Code and its output
+
 data <- c(
   length = length(rivers),
   sum = sum(rivers),
@@ -156,6 +156,8 @@ data <- c(
   min = min(rivers),
   max = max(rivers)
 )
+
+data
  # length   sum        mean  median  variance     sd       min     max 
  # 141.0   591952.0   591.2   425.0  98382.96   313.83   135.0  3710.0 
 
@@ -163,7 +165,8 @@ data <- c(
 ##8. The table below gives the 25 most powerful celebrities and their annual pay as ranked by the editions of Forbes magazine and as listed on the Forbes.com website.
 
 ```{r setup, include= FALSE}
-#a.
+#a
+
 power_rank <- 1:25
 
 celebrity <- c(
@@ -184,7 +187,8 @@ pay <- c(
 forbes <- data.frame(power_rank, celebrity, pay)
 forbes
 
-#b. Modify J.K. Rowling
+#b
+
 jk_index <- which(forbes$celebrity == "J.K. Rowling")
 forbes$power_rank[jk_index] <- 15
 forbes$pay[jk_index] <- 90
