@@ -1,0 +1,81 @@
+---
+title: 'Worksheet #3a'
+author: "John Rick Estoce"
+date: "2025-10-13"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+a. You need to produce a vector that contains the first 11 letters.
+```{r}
+LETTERS[1:11]
+```
+
+b. Produce a vector that contains the odd numbered letters.
+```{r}
+LETTERS[seq(1, 26, 2)]
+```
+
+c. Produce a vector that contains the vowels
+```{r}
+LETTERS[LETTERS %in% c("A", "E", "I", "O", "U")]
+```
+
+d. Vector that contains the last 5 lowercase letters
+```{r}
+LETTERS[22:26]
+```
+
+e. Vector that contains letters between 15 to 24 (inclusive) in lowercase
+```{r}
+LETTERS[15:24]
+```
+
+2. Create a vector(not a dataframe) with the average temperatures in April for Tugue-
+garao City, Manila, Iloilo City, Tacloban, Samal Island, and Davao City. The average
+
+temperatures in Celcius are 42, 39, 34, 34, 30, and 27 degrees.
+
+a. What is the R code and its result for creating a character vector for the city/town
+of Tuguegarao City, Manila, Iloilo City, Tacloban,Samal Island, and Davao City? Name the
+object as city. The names should follow the same order as in the instruction.
+
+```{r}
+city <- c("Tuguegarao City", "Manila", "Iloilo City", "Tacloban","Samal Island", "Davao City")
+city
+```
+
+b. The average temperatures in Celcius are 42, 39, 34, 34, 30, and 27 degrees.
+Name the object as temp. Write the R code and its output. Numbers should also follow
+what is in the instruction.
+
+```{r}
+temp <- c( 42, 39, 34, 34, 30, 27)
+temp
+```
+
+c. Create a dataframe to combine the city and the temp by using ‘data.frame(). What
+the R code and its result?
+```{r}
+data.frame(
+  city = c("Tuguegarao City", "Manila", "Iloilo City", "Tacloban", "Samal Island", "Davao City"),
+  temp = c(42, 39, 34, 34, 30, 27)
+)
+```
+
+d. Associate the dataframe you have created in 2.(c) by naming the columns using
+the names() function. Change the column names by using names() function as City and
+Temperature. What is the R code and its result?
+```{r}
+df <- data.frame(
+  city = c("Tuguegarao City", "Manila", "Iloilo City", "Tacloban", "Samal Island", "Davao City"),
+  temp = c(42, 39, 34, 34, 30, 27)
+)
+
+names(df) <- c("City", "Temperature")
+
+df
+```
