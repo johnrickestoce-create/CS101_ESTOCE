@@ -27,7 +27,7 @@ Types_of_Houses <- c(1,2,3,1,1,3,3,1,2,3,2,3,2,2,3,3,3,3,3,2)
 data <- data.frame(Respondents, Sex, Fathers_Occupation,
                    Persons_at_Home, Siblings_at_School, Types_of_Houses)
 
-# View data
+# View dat
 print(data)
 
 ```
