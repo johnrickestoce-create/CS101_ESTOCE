@@ -1,0 +1,74 @@
+---
+title: "RWorksheet_ESTOCE#4b.Rmd"
+author: "John Rick Estoce"
+date: "2025-11-03"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+1. Using the for loop, create an R script that will display a 5x5 matrix as shown in Figure 1. It must contain vectorA = [1,2,3,4,5] and a 5 x 5 zero matrix.
+Hint Use abs() function to get the absolute
+```{r}
+# Define the vector
+vectorA <- 1:5
+matrix_result <- matrix(0, nrow = 5, ncol = 5)
+
+for (i in 1:5) {
+  for (j in 1:5) {
+    matrix_result[i, j] <- abs(i - j)
+  }
+}
+
+print(matrix_result)
+
+```
+
+2. Print the string "*" using for() function. The output should be the same as shown in Figure 2.
+```{r}
+for (i in 1:5) {
+  for (j in 1:i) {
+    cat('"*"\t')
+  }
+  cat("\n\n")
+}
+
+```
+
+3. Get an input from the user to print the Fibonacci sequence starting from the 1st input up to 500. Use repeat and break statements. Write the R Scripts and its output.
+```{r}
+fib_sequence <- function() {
+  start <- as.integer(readline(prompt = "Enter starting number: "))
+  
+  if (start <= 0) {
+    print("Please enter a positive number")
+    return()
+  }
+  
+  a <- 0
+  b <- 1
+  count <- 0
+  result <- c()
+  
+  repeat {
+    if (count >= start) {
+      if (b > 500) {
+        break
+      }
+      result <- c(result, b)
+    }
+    
+    temp <- a + b
+    a <- b
+    b <- temp
+    count <- count + 1
+  }
+  print(result)
+}
+
+```
+
+
+4.
