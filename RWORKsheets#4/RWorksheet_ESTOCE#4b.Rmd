@@ -71,4 +71,10 @@ fib_sequence <- function() {
 ```
 
 
-4.
+4. Import the dataset as shown in Figure 1 you have created previously.
+
+```{r}
+library(readxl)
+shoe_data <- read_excel("shoe_sizes.xlsx")
+head(shoe_data)
+```
