@@ -1,0 +1,171 @@
+---
+title: "RWorksheet_ESTOCE-3b"
+author: "John Rick Estoce"
+date: "2025-10-15"
+output:
+  pdf_document:
+    latex_engine: xelatex
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#1. Create a data frame using the tble below.
+
+a. Write the codes.
+```{r}
+# Create data frame with 20 respondents (added Persons_at_Home)
+household <- data.frame(
+  Sex = c("Male", "Female", "Female", "Male", "Male",
+          "Female", "Female", "Male", "Female", "Male",
+          "Male", "Female", "Male", "Female", "Male",
+          "Female", "Male", "Female", "Female", "Male"),
+  
+  Fathers_Occupation = c("Farmer", "Driver", "Others", "Farmer", "Driver",
+                        "Farmer", "Others", "Driver", "Farmer", "Others",
+                        "Driver", "Farmer", "Driver", "Others", "Farmer",
+                        "Driver", "Others", "Farmer", "Driver", "Others"),
+  
+  Persons_at_Home = c(5, 6, 4, 7, 5,
+                      8, 3, 6, 5, 4,
+                      6, 5, 4, 7, 5,
+                      6, 5, 4, 3, 4),
+  
+  Siblings_at_school = c(3, 5, 2, 6, 4,
+                     7, 3, 5, 4, 2,
+                     6, 5, 3, 7, 4,
+                     6, 5, 4, 2, 3),
+    
+  Type_of_House = c("Wood", "Concrete", "Semi-Concrete", "Wood", "Concrete",
+                    "Wood", "Semi-Concrete", "Concrete", "Wood", "Semi-Concrete",
+                    "Concrete", "Wood", "Semi-Concrete", "Concrete", "Wood",
+                    "Semi-Concrete", "Concrete", "Wood", "Concrete", "Semi-Concrete")
+
+)
+
+household
+
+```
+
+b. Describe the data. Get the structure or the summary of the data
+```{r}
+str(household)
+summary(household)
+```
+
+c. Is the mean number of siblings attending is 5?
+```{r}
+mean(household$Siblings_at_school)
+mean(household$Siblings_at_school) == 5
+```
+
+d. Extract the 1st two rows and then all the columns using the subsetting functions. Write the codes and its output.
+```{r}
+household[1:2, ]
+```
+
+e. Extract 3rd and 5th row with 2nd and 4th column. Write the codes and its result.
+```{r}
+household[c(3,5), c(2,4)]
+```
+
+g. Select only all Males respondent that their father occupation was farmer. Write the
+codes and its output.
+```{r}
+types_houses <- household$Type_of_House
+types_houses
+```
+
+h. Select only all females respondent that have greater than or equal to 5 number of siblings attending school. Write the codes and its outputs.
+```{r}
+subset(household, Sex == "Female" & Siblings_at_school >= 5)
+```
+
+#2. Write a R program to create an empty data frame. Using the following codes:
+a. Describe the results.
+```{r}
+df = data.frame(
+  Ints = integer(),
+  Doubles = double(),
+  Characters = character(),
+  Logicals = logical(),
+  Factors = factor(),
+  stringsAsFactors = FALSE
+)
+
+print("Structure of the empty dataframe:")
+print(str(df))
+
+```
+
+#3. Create a .csv file of this. Save it as HouseholdData.csv
+
+a. Import the csv file into the R environment. Write the codes.
+```{r}
+write.csv(household, "HouseholdData.csv", row.names = FALSE)
+
+data <- read.csv("HouseholdData.csv")
+
+print(data)
+```
+
+b. Convert the Sex into factor using factor() function and change it into integer.[Legend: Male = 1 and Female = 2]. Write the R codes and its output.
+```{r}
+data$Sex <- factor(data$Sex, levels = c("Male", "Female"), labels = c(1, 2))
+data$Sex <- as.integer(data$Sex)
+data
+```
+c. Convert the Type of Houses into factor and change it into integer. [Legend: Wood = 1; Congrete = 2; Semi-Congrete = 3]. Write the R codes and its output.
+```{r}
+# Convert Type of House to factor with given legend
+data$Type_of_House <- factor(data$Type_of_House,
+                             levels = c("Wood", "Concrete", "Semi-Concrete"),
+                             labels = c(1, 2, 3))
+
+# Convert to integer
+data$Type_of_House <- as.integer(data$Type_of_House)
+
+data
+```
+
+d. On father’s occupation, factor it as Farmer = 1; Driver = 2; and Others = 3. What
+is the R code and its output?
+```{r}
+data$Fathers_Occupation <- factor(data$Fathers_Occupation, levels = c("Farmer", "Driver", "Others"), labels = c(1, 2, 3))
+data$Fathers_Occupation <- as.integer(data$Fathers_Occupation)
+
+data
+```
+
+e. Select only all females respondent that has a father whose occupation is driver. Write
+the codes and its output.
+```{r}
+female_driver <- subset(data, Sex == 2 & Fathers_Occupation == 2)
+
+print(female_driver)
+```
+
+f. Select the respondents that have greater than or equal to 5 number of siblings attending
+school. Write the codes and its output.
+```{r}
+siblings5 <- subset(data, Siblings_at_school >= 5)
+
+print(siblings5)
+```
+
+
+4. Interpret the graph.
+
+This graph shows how people felt on Twitter from July 14 to July 21, 2020.
+There are three kinds of feelings in the tweets:
+
+Most tweets were Negative. Almost every day, the red bars are the tallest. This means many people were upset, angry, or sad during this time.
+
+Neutral tweets are in the middle. Some people were just sharing facts or opinions without strong emotions.
+
+Positive tweets are the lowest. There were happy or encouraging tweets, but not as many compared to negative ones.
+
+July 15 and July 21 had the highest number of tweets, especially negative ones.
+
+People on Twitter were mostly feeling negative during these days. There were some neutral thoughts and only a few positive messages.
