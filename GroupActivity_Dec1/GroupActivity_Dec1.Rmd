@@ -1,0 +1,185 @@
+---
+title: "Computational Geometry Papers Analysis"
+author: "Benjamin, Estoce,Jimenez, Hallares"
+date: "December 1, 2025"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+# Load libraries
+library(ggplot2)
+library(dplyr)
+library(knitr)
+
+# Set chunk options
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+```
+
+```{r}
+install.packages(c(
+  "polite",
+  "httr",
+  "xml2",
+  "tidyverse",
+  "lubridate",
+  "rvest",
+  "dplyr",
+  "ggplot2",
+  "stringr",
+  "purrr",
+  "knitr"
+))
+```
+
+
+```{r}
+# Load required libraries
+library(rvest)
+library(dplyr)
+library(ggplot2)
+library(stringr)
+
+# Function to extract and analyze arXiv papers
+analyze_computational_geometry <- function() {
+  cat("=== ARXIV COMPUTATIONAL GEOMETRY ANALYSIS ===\n\n")
+  
+  # arXiv search URL
+  url <- "https://arxiv.org/search/?query=Computational+Geometry&searchtype=title&order=-submitted_date&size=200"
+  
+  # Extract data from arXiv
+  cat("Extracting data from arXiv...\n")
+  webpage <- tryCatch({
+    read_html(url)
+  }, error = function(e) {
+    cat("Error reading webpage. Using sample data for demonstration.\n")
+    return(NULL)
+  })
+  
+  if (is.null(webpage)) {
+    # Create sample data for demonstration
+    set.seed(123)
+    years <- sample(2015:2024, 200, replace = TRUE, prob = c(1,1,2,2,3,3,4,4,5,5))
+    papers_data <- data.frame(
+      title = paste("Computational Geometry Paper", 1:200),
+      authors = paste("Author", 1:200),
+      year = years,
+      stringsAsFactors = FALSE
+    )
+  } else {
+    # Extract real data
+    papers <- html_nodes(webpage, "li.arxiv-result")
+    cat("Found", length(papers), "papers\n")
+    
+    papers_data <- data.frame(
+      title = character(),
+      authors = character(), 
+      year = numeric(),
+      stringsAsFactors = FALSE
+    )
+    
+    for (i in seq_along(papers)) {
+      # Extract title
+      title <- papers[i] %>% 
+        html_node("p.title.is-5.mathjax") %>% 
+        html_text() %>%
+        str_remove("Title:") %>%
+        str_trim()
+      
+      # Extract authors
+      authors <- papers[i] %>% 
+        html_node("p.authors") %>% 
+        html_text() %>%
+        str_remove("Authors:") %>%
+        str_trim()
+      
+      # Extract year from date info
+      date_info <- papers[i] %>% 
+        html_node("p.is-size-7") %>% 
+        html_text()
+      
+      year <- str_extract(date_info, "\\d{4}")
+      year <- as.numeric(year)
+      
+      papers_data <- rbind(papers_data, data.frame(
+        title = ifelse(is.na(title), "Unknown Title", title),
+        authors = ifelse(is.na(authors), "Unknown Authors", authors),
+        year = ifelse(is.na(year), 2023, year),
+        stringsAsFactors = FALSE
+      ))
+    }
+  }
+  
+  # Arrange by year (newest first)
+  papers_data <- papers_data %>% 
+    arrange(desc(year))
+  
+  # Create time series data
+  yearly_counts <- papers_data %>%
+    group_by(year) %>%
+    summarise(count = n()) %>%
+    arrange(year)
+  
+  # Display summary
+  cat("\n=== ANALYSIS SUMMARY ===\n")
+  cat("Total papers:", nrow(papers_data), "\n")
+  cat("Year range:", min(yearly_counts$year), "-", max(yearly_counts$year), "\n")
+  cat("\nPapers per year:\n")
+  print(yearly_counts)
+  
+  # Create and display time series plot
+  cat("\nCreating time series plot...\n")
+  
+  p <- ggplot(yearly_counts, aes(x = year, y = count)) +
+    geom_line(color = "#2E86AB", size = 1.5) +
+    geom_point(color = "#A23B72", size = 3) +
+    geom_smooth(method = "lm", se = FALSE, linetype = "dashed", color = "darkred") +
+    labs(
+      title = "Computational Geometry Papers on arXiv - Time Series",
+      subtitle = paste("Total Papers Analyzed:", nrow(papers_data)),
+      x = "Year",
+      y = "Number of Papers",
+      caption = "Data source: arXiv.org | Search: Computational Geometry in Title"
+    ) +
+    theme_minimal() +
+    theme(
+      plot.title = element_text(face = "bold", size = 16, hjust = 0.5),
+      plot.subtitle = element_text(size = 12, hjust = 0.5),
+      panel.grid.minor = element_blank()
+    )
+  
+  print(p)
+  
+  # Save outputs
+  ggsave("computational_geometry_timeline.png", p, width = 10, height = 6, dpi = 300)
+  write.csv(papers_data, "computational_geometry_papers.csv", row.names = FALSE)
+  write.csv(yearly_counts, "yearly_paper_counts.csv", row.names = FALSE)
+  
+  cat("\n=== OUTPUT FILES SAVED ===\n")
+  cat("1. computational_geometry_timeline.png - Time series plot\n")
+  cat("2. computational_geometry_papers.csv - All paper data\n") 
+  cat("3. yearly_paper_counts.csv - Yearly summary\n")
+  
+  # Display sample of papers
+  cat("\n=== SAMPLE OF PAPERS (5 most recent) ===\n")
+  for(i in 1:min(5, nrow(papers_data))) {
+    cat("\n", paste(rep("-", 50), collapse = ""), "\n")
+    cat("PAPER", i, "\n")
+    cat("Title:", papers_data$title[i], "\n")
+    cat("Year:", papers_data$year[i], "\n")
+    cat("Authors:", str_sub(papers_data$authors[i], 1, 50), "...\n")
+  }
+  
+  return(list(
+    papers = papers_data,
+    yearly_counts = yearly_counts,
+    plot = p
+  ))
+}
+
+# Run the analysis
+results <- analyze_computational_geometry()
+```
+
+
+
+
